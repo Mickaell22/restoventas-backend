@@ -4,7 +4,7 @@
   "description": "API REST de RestoVentas (NestJS + PostgreSQL + JWT)",
   "author": "",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
