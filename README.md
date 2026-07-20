@@ -35,11 +35,19 @@ POST /ai/parse-order  { text }                -> IA: texto -> items[]
 
 ```bash
 npm install
-cp .env.example .env   # completar credenciales de DB y API key de IA
+cp .env.example .env    # completar credenciales de DB, JWT_SECRET y API key de IA
+npm run migration:run   # crea las tablas
 npm run start:dev
 ```
 
-Requiere PostgreSQL local (Docker o instalación local).
+Requiere PostgreSQL local (Docker o instalación local). El esquema se gestiona
+con migraciones de TypeORM:
+
+```bash
+npm run migration:generate   # genera una migración a partir de cambios en entidades
+npm run migration:run        # aplica migraciones pendientes
+npm run migration:revert     # revierte la última
+```
 
 ## Cliente
 
