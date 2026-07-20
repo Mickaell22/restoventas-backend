@@ -7,7 +7,7 @@ API REST para RestoVentas: productos, ventas, estadísticas y parseo de pedidos 
 ## Stack
 
 - NestJS + TypeScript
-- PostgreSQL
+- PostgreSQL + TypeORM
 - Auth con JWT
 - IA: DeepSeek (parseo de pedidos en lenguaje natural)
 
