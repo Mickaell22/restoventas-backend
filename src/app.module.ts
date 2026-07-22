@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { ThrottlerModule } from '@nestjs/throttler';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -14,6 +15,8 @@ import { UsersModule } from './users/users.module';
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot(buildTypeOrmOptions()),
+    // Rate-limit base (60 req/min por IP); /auth lo endurece con @Throttle.
+    ThrottlerModule.forRoot([{ ttl: 60000, limit: 60 }]),
     UsersModule,
     AuthModule,
     ProductsModule,

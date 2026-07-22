@@ -11,6 +11,16 @@ import { User } from '../users/user.entity';
  * nada de credenciales hardcodeadas.
  */
 export function buildTypeOrmOptions(): DataSourceOptions {
+  // Falla temprano y claro si falta config de la BD, en vez de un error
+  // criptico al abrir la conexion.
+  const missing = ['DB_HOST', 'DB_USER', 'DB_PASSWORD', 'DB_NAME'].filter(
+    (k) => !process.env[k],
+  );
+  if (missing.length > 0) {
+    throw new Error(
+      `Faltan variables de entorno de la BD: ${missing.join(', ')}`,
+    );
+  }
   return {
     type: 'postgres',
     host: process.env.DB_HOST,
