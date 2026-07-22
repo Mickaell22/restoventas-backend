@@ -26,6 +26,7 @@ SaleItem(id, saleId, productId, qty, unitPrice, subtotal)
 ```
 POST /auth/register · POST /auth/login        -> JWT
 GET/POST/PATCH/DELETE /products               -> CRUD productos
+GET/POST /categories                          -> listar/crear categorías
 GET/POST /sales · GET /sales/:id              -> registrar y listar ventas
 GET /stats/summary?from&to                    -> totales, top productos
 POST /ai/parse-order  { text }                -> IA: texto -> items[]

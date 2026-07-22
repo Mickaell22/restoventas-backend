@@ -5,6 +5,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { buildTypeOrmOptions } from './config/typeorm.config';
+import { ProductsModule } from './products/products.module';
+import { SalesModule } from './sales/sales.module';
+import { StatsModule } from './stats/stats.module';
 import { UsersModule } from './users/users.module';
 
 @Module({
@@ -13,6 +16,9 @@ import { UsersModule } from './users/users.module';
     TypeOrmModule.forRoot(buildTypeOrmOptions()),
     UsersModule,
     AuthModule,
+    ProductsModule,
+    SalesModule,
+    StatsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
