@@ -22,6 +22,12 @@ ver `README.md`.
   los cambios de entidades se versionan con `migration:generate` + `migration:run`.
 
 ## Decisiones / gotchas
+- **`sales.created_at` es `timestamptz`, no `timestamp`.** El historial de la app
+  filtra por "hoy"/"esta semana" mandando instantes ISO calculados en la zona del
+  telefono; con una columna sin zona el rango se corria por el offset (en -04, las
+  ventas de la noche caian en el dia siguiente). Los rangos van por el DTO
+  compartido `src/common/date-range-query.dto.ts` (`GET /sales` y `/stats/summary`).
+  Si se agregan mas columnas de fecha que se filtren, que nazcan `timestamptz`.
 - **`numericTransformer`** (`src/common/numeric.transformer.ts`): las columnas
   `numeric(10,2)` (price, total, unitPrice, subtotal) se exponen como `number`
   en JS (pg las entrega como string). No tratarlas como string en el codigo.

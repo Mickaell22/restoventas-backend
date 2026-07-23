@@ -5,11 +5,13 @@ import {
   Param,
   ParseUUIDPipe,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { CurrentUser } from '../auth/current-user.decorator';
 import type { AuthUser } from '../auth/current-user.decorator';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { DateRangeQueryDto } from '../common/date-range-query.dto';
 import { CreateSaleDto } from './dto/create-sale.dto';
 import { SalesService } from './sales.service';
 
@@ -19,8 +21,8 @@ export class SalesController {
   constructor(private readonly sales: SalesService) {}
 
   @Get()
-  findAll(@CurrentUser() user: AuthUser) {
-    return this.sales.findAll(user.id);
+  findAll(@CurrentUser() user: AuthUser, @Query() range: DateRangeQueryDto) {
+    return this.sales.findAll(user.id, range);
   }
 
   @Get(':id')

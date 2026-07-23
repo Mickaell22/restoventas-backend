@@ -28,9 +28,12 @@ POST /auth/register · POST /auth/login        -> JWT
 GET/POST/PATCH/DELETE /products               -> CRUD productos
 GET/POST /categories                          -> listar/crear categorías
 GET/POST /sales · GET /sales/:id              -> registrar y listar ventas
-GET /stats/summary?from&to                    -> totales, top productos
+GET /sales?from=<ISO>&to=<ISO>                -> filtra las ventas por rango
+GET /stats/summary?from=<ISO>&to=<ISO>        -> totales, top productos
 POST /ai/parse-order  { text }                -> IA: texto -> items[]
 ```
+
+> `from` y `to` son opcionales y van en ISO-8601 con zona (ej. `2026-07-23T00:00:00-04:00`). Se comparan contra `sales.created_at`, que es `timestamptz`.
 
 ## Cómo correr
 
