@@ -18,10 +18,16 @@ export class Sale {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @CreateDateColumn({ name: 'created_at' })
+  // timestamptz (no `timestamp`): el historial filtra por "hoy"/"esta semana"
+  // con instantes ISO del telefono, y sin zona el rango se corre por el offset.
+  @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   createdAt: Date;
 
-  @Column('numeric', { precision: 10, scale: 2, transformer: numericTransformer })
+  @Column('numeric', {
+    precision: 10,
+    scale: 2,
+    transformer: numericTransformer,
+  })
   total: number;
 
   @Column({ name: 'payment_method', default: 'cash' })

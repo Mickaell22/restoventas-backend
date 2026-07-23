@@ -4,7 +4,14 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, Repository } from 'typeorm';
+import {
+  Between,
+  In,
+  LessThanOrEqual,
+  MoreThanOrEqual,
+  Repository,
+} from 'typeorm';
+import { DateRangeQueryDto } from '../common/date-range-query.dto';
 import { Product } from '../products/product.entity';
 import { CreateSaleDto } from './dto/create-sale.dto';
 import { computeSaleTotals } from './sale-totals';
@@ -56,9 +63,21 @@ export class SalesService {
     return this.sales.save(sale);
   }
 
-  findAll(userId: string): Promise<Sale[]> {
+  findAll(userId: string, range: DateRangeQueryDto = {}): Promise<Sale[]> {
+    const createdAt =
+      range.from && range.to
+        ? Between(new Date(range.from), new Date(range.to))
+        : range.from
+          ? MoreThanOrEqual(new Date(range.from))
+          : range.to
+            ? LessThanOrEqual(new Date(range.to))
+            : undefined;
+
     return this.sales.find({
-      where: { userId },
+      where: { userId, ...(createdAt && { createdAt }) },
+      // items (sin product) alcanza para mostrar el conteo de lineas en el
+      // historial; el detalle completo lo trae findOne.
+      relations: { items: true },
       order: { createdAt: 'DESC' },
     });
   }

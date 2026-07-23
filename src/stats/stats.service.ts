@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Sale } from '../sales/sale.entity';
-import { SummaryQueryDto } from './dto/summary-query.dto';
+import { DateRangeQueryDto } from '../common/date-range-query.dto';
 
 export interface TopProduct {
   productId: string;
@@ -24,7 +24,10 @@ export class StatsService {
     private readonly sales: Repository<Sale>,
   ) {}
 
-  async summary(userId: string, query: SummaryQueryDto): Promise<StatsSummary> {
+  async summary(
+    userId: string,
+    query: DateRangeQueryDto,
+  ): Promise<StatsSummary> {
     const totals = await this.applyRange(
       this.sales
         .createQueryBuilder('sale')
@@ -71,7 +74,7 @@ export class StatsService {
 
   private applyRange<T extends import('typeorm').SelectQueryBuilder<Sale>>(
     qb: T,
-    query: SummaryQueryDto,
+    query: DateRangeQueryDto,
   ): T {
     if (query.from) {
       qb.andWhere('sale.created_at >= :from', { from: query.from });
